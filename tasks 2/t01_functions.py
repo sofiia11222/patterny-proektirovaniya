@@ -39,8 +39,7 @@ def task_03(n):
         task_03(0) == 0
         task_03(10) == 55
     """
-    raise NotImplementedError("Реализуйте task_03")
-
+    return n + task_03(n - 1)
 
 def task_04(item, items=None):
     """Безопасное добавление элемента.
@@ -56,7 +55,12 @@ def task_04(item, items=None):
         task_04("b", ["a"]) == ["a", "b"]
         src = ["a"]; task_04("b", src); src == ["a"]  # вход не изменился
     """
-    raise NotImplementedError("Реализуйте task_04")
+    if items is None:
+        result = []
+    else:
+        result = list(items)
+    result.append(item)
+    return result
 
 
 def task_05(name, *, greeting="Привет", punctuation="!"):
@@ -71,8 +75,7 @@ def task_05(name, *, greeting="Привет", punctuation="!"):
         task_05("Ольга", greeting="Салют", punctuation="?") == "Салют, Ольга?"
         task_05("А", "Б")  # TypeError: позиционно передавать нельзя
     """
-    raise NotImplementedError("Реализуйте task_05")
-
+    return f"{greeting}, {name}{punctuation}"
 
 def task_06(func, value):
     """Применить функцию дважды.
@@ -85,4 +88,4 @@ def task_06(func, value):
         task_06(lambda s: s + "!", "привет") == "привет!!"
         task_06(str.strip, "  x  ") == "x"
     """
-    raise NotImplementedError("Реализуйте task_06")
+    return func(func(value))    
