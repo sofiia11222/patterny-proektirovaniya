@@ -17,11 +17,14 @@ class Employee:
     """
 
     def __init__(self, name, age, role):
-        raise NotImplementedError("Реализуйте Employee.__init__")
+        self.name = name
+        self.age = age
+        self.role = role
 
     @classmethod
     def from_string(cls, text):
-        raise NotImplementedError("Реализуйте Employee.from_string")
+        name, age, role = text.split(";")
+        return cls(name, int(age), role)
 
 
 class Password:
@@ -46,18 +49,23 @@ class Password:
     """
 
     def __init__(self, raw):
-        raise NotImplementedError("Реализуйте Password.__init__")
+        self._password = raw
 
     @property
     def password(self):
-        raise NotImplementedError("Реализуйте Password.password")
+        return "*" * len(self._password)
 
     @property
     def is_strong(self):
-        raise NotImplementedError("Реализуйте Password.is_strong")
+        p = self._password
+        return (
+            len(p) >= 8
+            and any(c.isupper() for c in p)
+            and any(c.isdigit() for c in p)
+        )
 
     def check(self, candidate):
-        raise NotImplementedError("Реализуйте Password.check")
+        return candidate == self._password
 
 
 class Stats:
@@ -80,13 +88,15 @@ class Stats:
     """
 
     def __init__(self, values):
-        raise NotImplementedError("Реализуйте Stats.__init__")
+        self._values = list(values)
 
     def __len__(self):
-        raise NotImplementedError("Реализуйте Stats.__len__")
+        return len(self._values)
 
     def __getitem__(self, index):
-        raise NotImplementedError("Реализуйте Stats.__getitem__")
+        return self._values[index]
 
     def mean(self):
-        raise NotImplementedError("Реализуйте Stats.mean")
+        if not self._values:
+            return None
+        return sum(self._values) / len(self._values)

@@ -15,7 +15,16 @@ def hw_08(func):
         init() == 42
         init()  # RuntimeError ... уже ...
     """
-    raise NotImplementedError("Реализуйте hw_08")
+    called = False
+
+    def wrapper(*args, **kwargs):
+        nonlocal called
+        if called:
+            raise RuntimeError("функция уже была вызвана")
+        called = True
+        return func(*args, **kwargs)
+
+    return wrapper
 
 
 def hw_09(*types):
@@ -34,7 +43,14 @@ def hw_09(*types):
         greet("Анна", 30) == "Анна, 30"
         greet("Анна", "30")    # TypeError ... тип ...
     """
-    raise NotImplementedError("Реализуйте hw_09")
+    def decorator(func):
+        def wrapper(*args, **kwargs):
+            for i, t in enumerate(types):
+                if i < len(args) and not isinstance(args[i], t):
+                    raise TypeError("неверный тип аргумента")
+            return func(*args, **kwargs)
+        return wrapper
+    return decorator
 
 
 def hw_10(func):
@@ -53,4 +69,9 @@ def hw_10(func):
         add(3, 4) == 7
         add.log == [(1, 2), (3, 4)]
     """
-    raise NotImplementedError("Реализуйте hw_10")
+    def wrapper(*args, **kwargs):
+        wrapper.log.append(args)
+        return func(*args, **kwargs)
+
+    wrapper.log = []
+    return wrapper
